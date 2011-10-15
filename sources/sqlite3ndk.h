@@ -40,10 +40,23 @@
 #include <sys/types.h>
 #include <android/asset_manager.h>
 
+#ifndef SQLITE_NDK_VFS_NAME
+// Default name for VFS
 #define SQLITE_NDK_VFS_NAME "ndk-asset"
+#endif
+
+#ifndef SQLITE_NDK_VFS_MAKE_DEFAULT
+// Default sqlite3_ndk_init parameter
 #define SQLITE_NDK_VFS_MAKE_DEFAULT 0
+#endif
+
+// Default sqlite3_ndk_init parameter
 #define SQLITE_NDK_VFS_PARENT_VFS NULL
+
+#ifndef SQLITE_NDK_VFS_MAX_PATH
+// Maximum path name for database files
 #define SQLITE_NDK_VFS_MAX_PATH 512
+#endif
 
 /*
  * This function registers VFS into SQLite.
