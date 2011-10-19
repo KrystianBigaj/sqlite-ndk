@@ -273,6 +273,8 @@ static int ndkFileClose(sqlite3_file *pFile)
 	{
 		AAsset_close(file->asset);
 		file->asset = NULL;
+		file->buf = NULL;
+		file->len = 0;
 	}
 
 	return SQLITE_OK;
