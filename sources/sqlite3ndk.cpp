@@ -428,6 +428,7 @@ int sqlite3_ndk_init(AAssetManager* assetMgr, const char* vfsName,
 		int makeDflt, const char *osVfs)
 {
 	static ndk_vfs ndkVfs;
+	int rc;
 
 	// assetMgr is required parameter
 	if (!assetMgr)
@@ -511,8 +512,14 @@ int sqlite3_ndk_init(AAssetManager* assetMgr, const char* vfsName,
 	// Asset manager
 	ndkVfs.mgr = assetMgr;
 
-	// Last part, register VFS
-	sqlite3_vfs_register(&ndkVfs.vfs, makeDflt);
+	// Last part, try to register VFS
+	rc = sqlite3_vfs_register(&ndkVfs.vfs, makeDflt);
+   
+	if (rc != SQLITE_OK)
+	{
+		// sqlite3_vfs_register could fails in case of sqlite3_initialize failure
+		ndkVfs.mgr = 0;
+	}
 
-	return SQLITE_OK;
+	return rc;
 }
